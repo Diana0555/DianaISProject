@@ -19,7 +19,6 @@
       border-radius:12px;
       border:1px solid #ddd;
     }
-    h1{margin-top:0;}
     label{font-weight:bold;}
     select, button{
       width:100%;
@@ -32,11 +31,15 @@
       background:#f0f0f0;
       border-radius:8px;
     }
+    a{color:#2563eb; text-decoration:none; font-weight:bold;}
   </style>
 </head>
 
 <body>
   <div class="box">
+
+    <p><a href="scratch.html">← Back to Scratch Page</a></p>
+
     <h1>What Should I Wear?</h1>
 
     <label>Occasion</label>
@@ -71,23 +74,23 @@
 
       const outfits = {
         casual: {
-          spring: ["jeans + light sweater", "leggings + hoodie"],
-          summer: ["t-shirt + shorts", "tank top + skirt"],
-          fall: ["long sleeve + jeans", "sweater + leggings"],
-          winter: ["warm sweater + jeans", "hoodie + boots"]
+          spring: ["jeans and a light sweater", "leggings and a hoodie"],
+          summer: ["t-shirt and shorts", "tank top and skirt"],
+          fall: ["long sleeve and jeans", "sweater and leggings"],
+          winter: ["warm sweater and jeans", "hoodie and boots"]
         },
         formal: {
-          spring: ["blouse + dress pants", "light dress"],
-          summer: ["sleeveless dress", "blouse + skirt"],
-          fall: ["blazer + slacks", "midi dress"],
-          winter: ["sweater dress + boots", "dress pants + coat"]
+          spring: ["blouse and dress pants", "light dress"],
+          summer: ["sleeveless dress", "blouse and skirt"],
+          fall: ["blazer and slacks", "midi dress"],
+          winter: ["sweater dress and boots", "dress pants and coat"]
         }
       };
 
       const outfit = pick(outfits[occasion][season]);
 
       document.getElementById("result").innerHTML =
-        `<strong>${season.charAt(0).toUpperCase()+season.slice(1)} ${occasion} outfit:</strong><br>${outfit}`;
+        `<strong>${season} ${occasion} outfit:</strong><br>${outfit}`;
     }
   </script>
 </body>
