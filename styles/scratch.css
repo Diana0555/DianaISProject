@@ -76,4 +76,7 @@
   display: block;
   max-width: 100% !important;
 }
+.spaced-list > li {
+  margin-bottom: 20px;
+}
 
