@@ -3,211 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini App | Shopping Mood Generator</title>
+  <title>Outfit Picker (No JavaScript)</title>
 
   <style>
-    :root{
-      --bg:#f7f7fb;
-      --card:#ffffff;
-      --text:#111827;
-      --muted:#6b7280;
-      --accent:#2563eb;
-      --accent2:#16a34a;
-      --danger:#ef4444;
-      --border:rgba(0,0,0,.10);
-      --shadow:0 10px 30px rgba(0,0,0,.08);
-      --radius:18px;
-    }
-    *{ box-sizing:border-box; }
     body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.35;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 24px 16px;
+      background: #f7f7fb;
+      color: #111827;
     }
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 20px 16px 70px;
-    }
+    .wrap{max-width: 900px; margin: 0 auto;}
     .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 14px 16px;
-      background: rgba(255,255,255,.9);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      position: sticky;
-      top: 12px;
-      z-index: 10;
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 12px 14px; background:#fff; border:1px solid rgba(0,0,0,.1);
+      border-radius: 12px; margin-bottom: 16px;
     }
-    .topbar a{
-      text-decoration:none;
-      color: var(--accent);
-      font-weight: 900;
-    }
-    .pill{
-      display:inline-block;
-      font-size: 12px;
-      font-weight: 900;
-      color: #fff;
-      background: var(--accent);
-      padding: 6px 10px;
-      border-radius: 999px;
-      letter-spacing:.2px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    @media (max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
+    .topbar a{ text-decoration:none; font-weight:800; color:#2563eb; }
     .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
+      background:#fff; border:1px solid rgba(0,0,0,.1);
+      border-radius: 16px; padding: 16px;
     }
-    h1{ margin:0 0 6px; font-size: 28px; letter-spacing:.2px; }
-    h2{ margin:0 0 6px; font-size: 18px; }
-    .sub{ margin:0; color: var(--muted); }
-
-    label{
-      display:block;
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--muted);
-      margin: 14px 0 6px;
-      letter-spacing:.4px;
-      text-transform: uppercase;
-    }
-
-    .row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    @media (max-width: 520px){
-      .row{ grid-template-columns: 1fr; }
-    }
-
-    select, input[type="number"]{
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 15px;
-      outline: none;
-      background: #fff;
-    }
-    select:focus, input[type="number"]:focus{
-      border-color: rgba(37,99,235,.55);
-      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
-    }
-
-    .btns{
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-      align-items:center;
-    }
-    button{
-      border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-weight: 900;
-      cursor:pointer;
-      transition: transform .05s ease;
-    }
-    button:hover{ transform: translateY(-1px); }
-
-    .primary{
-      background: var(--accent);
-      color:#fff;
-      border-color: transparent;
-    }
-    .good{
-      background: var(--accent2);
-      color:#fff;
-      border-color: transparent;
-    }
-    .danger{
-      background: var(--danger);
-      color:#fff;
-      border-color: transparent;
-    }
-
-    .output{
-      margin-top: 14px;
-      border-radius: 16px;
+    h1{margin: 0 0 6px;}
+    p{margin: 0 0 14px; color:#6b7280;}
+    fieldset{ border: 1px solid rgba(0,0,0,.1); border-radius: 12px; padding: 12px; margin: 12px 0;}
+    legend{ font-weight: 800; padding: 0 6px; }
+    label{ display:inline-block; margin: 6px 12px 6px 0; font-weight: 700; }
+    .results{ margin-top: 14px; }
+    .panel{
+      display:none;
+      border: 1px dashed rgba(0,0,0,.2);
+      background: rgba(0,0,0,.03);
       padding: 14px;
-      background: rgba(0,0,0,.04);
-      border: 1px dashed rgba(0,0,0,.15);
-    }
-    .outLabel{
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      margin-bottom: 8px;
-    }
-    .outText{
-      font-size: 16px;
-      font-weight: 900;
-      margin:0;
-    }
-    .mini{
-      margin-top: 10px;
-      color: var(--muted);
-      font-weight: 700;
-      line-height: 1.5;
-    }
-
-    .history{
-      margin-top: 12px;
-      border-top: 1px solid rgba(0,0,0,.08);
-      padding-top: 12px;
-    }
-    .chip{
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(0,0,0,.10);
-      background:#fff;
+      border-radius: 12px;
       margin-top: 10px;
     }
-    .chip .small{
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 900;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-    }
-    .chip .big{
-      margin-top: 6px;
-      font-weight: 900;
-    }
-
-    .toast{
-      margin-top: 10px;
-      font-size: 13px;
-      font-weight: 900;
-      color: var(--muted);
-      min-height: 18px;
-    }
+    .panel h2{ margin: 0 0 8px; font-size: 18px; }
+    ul{ margin: 0; padding-left: 18px; }
+    .hint{font-size: 13px; color:#6b7280; margin-top: 10px;}
   </style>
 </head>
 
@@ -215,191 +48,136 @@
   <div class="wrap">
     <div class="topbar">
       <a href="scratch.html">← Back to Scratch</a>
-      <span class="pill">Part 3 Mini App</span>
+      <strong>No-JS Outfit Picker</strong>
     </div>
 
-    <div class="grid">
-      <div class="card">
-        <h1>Shopping Mood Generator</h1>
-        <p class="sub">Pick your vibe + (optional) budget, then get a shopping plan: where to go, what to buy, and what to avoid.</p>
+    <div class="card">
+      <h1>What Should I Wear?</h1>
+      <p>Select an occasion and a season. Your outfit suggestions will appear.</p>
 
-        <div class="row">
-          <div>
-            <label for="vibe">Vibe</label>
-            <select id="vibe">
-              <option value="treat">Treat Yourself</option>
-              <option value="budget" selected>Budget Basics</option>
-              <option value="trendy">Trendy Refresh</option>
-              <option value="minimal">Minimal & Clean</option>
-              <option value="gift">Gift Shopping</option>
-            </select>
-          </div>
+      <!-- Occasion -->
+      <fieldset>
+        <legend>Occasion</legend>
+        <label><input type="radio" name="occasion" id="occ-casual" checked> Casual</label>
+        <label><input type="radio" name="occasion" id="occ-formal"> Formal</label>
+      </fieldset>
 
-          <div>
-            <label for="budget">Budget (optional)</label>
-            <input id="budget" type="number" min="0" placeholder="e.g., 50" />
-          </div>
+      <!-- Season -->
+      <fieldset>
+        <legend>Season</legend>
+        <label><input type="radio" name="season" id="sea-spring" checked> Spring</label>
+        <label><input type="radio" name="season" id="sea-summer"> Summer</label>
+        <label><input type="radio" name="season" id="sea-fall"> Fall</label>
+        <label><input type="radio" name="season" id="sea-winter"> Winter</label>
+      </fieldset>
+
+      <div class="results">
+        <div class="hint">Tip: change either selection to see a different outfit.</div>
+
+        <!-- CASUAL -->
+        <div class="panel" id="casual-spring">
+          <h2>Spring • Casual</h2>
+          <ul>
+            <li>Top: light sweater or long-sleeve tee</li>
+            <li>Bottom: jeans</li>
+            <li>Shoes: sneakers</li>
+            <li>Layer: denim jacket</li>
+          </ul>
         </div>
 
-        <div class="btns">
-          <button class="primary" id="genBtn">Generate Mood</button>
-          <button class="good" id="copyBtn">Copy</button>
-          <button class="danger" id="clearBtn">Clear</button>
+        <div class="panel" id="casual-summer">
+          <h2>Summer • Casual</h2>
+          <ul>
+            <li>Top: t-shirt or tank</li>
+            <li>Bottom: shorts</li>
+            <li>Shoes: sandals</li>
+            <li>Extra: sunglasses</li>
+          </ul>
         </div>
 
-        <div class="output" aria-live="polite">
-          <div class="outLabel">Your shopping plan</div>
-          <p class="outText" id="planTitle">Click “Generate Mood” to start.</p>
-          <div class="mini" id="planDetails"></div>
-          <div class="toast" id="toast"></div>
+        <div class="panel" id="casual-fall">
+          <h2>Fall • Casual</h2>
+          <ul>
+            <li>Top: long-sleeve top</li>
+            <li>Bottom: jeans</li>
+            <li>Shoes: ankle boots</li>
+            <li>Layer: cardigan</li>
+          </ul>
         </div>
-      </div>
 
-      <div class="card">
-        <h2>Recent plans</h2>
-        <p class="sub">Your last few generated plans (so it’s easy to show it’s interactive).</p>
+        <div class="panel" id="casual-winter">
+          <h2>Winter • Casual</h2>
+          <ul>
+            <li>Top: warm sweater</li>
+            <li>Bottom: warm pants</li>
+            <li>Shoes: boots</li>
+            <li>Layer: coat</li>
+          </ul>
+        </div>
 
-        <div class="history" id="history"></div>
+        <!-- FORMAL -->
+        <div class="panel" id="formal-spring">
+          <h2>Spring • Formal</h2>
+          <ul>
+            <li>Top: blouse</li>
+            <li>Bottom: dress pants</li>
+            <li>Shoes: flats or low heels</li>
+            <li>Layer: light blazer</li>
+          </ul>
+        </div>
+
+        <div class="panel" id="formal-summer">
+          <h2>Summer • Formal</h2>
+          <ul>
+            <li>Outfit: sleeveless dress</li>
+            <li>Shoes: heels or dress flats</li>
+            <li>Accessories: minimal jewelry</li>
+          </ul>
+        </div>
+
+        <div class="panel" id="formal-fall">
+          <h2>Fall • Formal</h2>
+          <ul>
+            <li>Top: blouse</li>
+            <li>Bottom: slacks</li>
+            <li>Shoes: loafers or heels</li>
+            <li>Layer: blazer</li>
+          </ul>
+        </div>
+
+        <div class="panel" id="formal-winter">
+          <h2>Winter • Formal</h2>
+          <ul>
+            <li>Outfit: sweater dress</li>
+            <li>Extra: tights</li>
+            <li>Shoes: boots</li>
+            <li>Layer: wool coat</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 
-  <script>
-    const vibeEl = document.getElementById("vibe");
-    const budgetEl = document.getElementById("budget");
-    const titleEl = document.getElementById("planTitle");
-    const detailsEl = document.getElementById("planDetails");
-    const toastEl = document.getElementById("toast");
-    const historyEl = document.getElementById("history");
+  <!-- Pure CSS logic: show the right panel -->
+  <style>
+    /* Default (Casual + Spring) */
+    #casual-spring { display:block; }
 
-    const storesByVibe = {
-      treat:  ["Sephora", "Nordstrom", "Ulta", "Lululemon", "a local boutique"],
-      budget: ["Target", "Walmart", "Marshalls", "TJ Maxx", "Old Navy"],
-      trendy: ["Zara", "H&M", "Urban Outfitters", "ASOS", "Aritzia"],
-      minimal:["Uniqlo", "Everlane", "Gap", "COS", "Banana Republic Factory"],
-      gift:  ["Target", "Etsy", "World Market", "Bath & Body Works", "Amazon"]
-    };
+    /* Casual */
+    #occ-casual:checked ~ * #sea-spring:checked ~ * #casual-spring,
+    #occ-casual:checked ~ * #sea-summer:checked ~ * #casual-summer,
+    #occ-casual:checked ~ * #sea-fall:checked   ~ * #casual-fall,
+    #occ-casual:checked ~ * #sea-winter:checked ~ * #casual-winter { display:block; }
 
-    const buys = [
-      "a neutral top you can re-wear",
-      "a good everyday pair of shoes",
-      "a cozy sweater or hoodie",
-      "a simple accessory (gold hoops / watch / belt)",
-      "a quality skincare staple (cleanser or moisturizer)",
-      "a structured bag that matches most outfits",
-      "a warm winter layer (puffer or coat)"
-    ];
+    /* Formal */
+    #occ-formal:checked ~ * #sea-spring:checked ~ * #formal-spring,
+    #occ-formal:checked ~ * #sea-summer:checked ~ * #formal-summer,
+    #occ-formal:checked ~ * #sea-fall:checked   ~ * #formal-fall,
+    #occ-formal:checked ~ * #sea-winter:checked ~ * #formal-winter { display:block; }
 
-    const avoid = [
-      "anything you can’t return",
-      "duplicate items you already own",
-      "super trendy pieces you won’t wear twice",
-      "random checkout candy/candles",
-      "buying because it’s on sale (only)",
-      "items without checking your closet first"
-    ];
-
-    const moods = {
-      treat:  ["Main character energy", "Luxury-lite day", "Glow-up mission"],
-      budget: ["Practical & proud", "Errands but cute", "Basics upgrade"],
-      trendy: ["New season refresh", "Pinterest outfit mood", "Trend test drive"],
-      minimal:["Clean girl closet reset", "Capsule wardrobe moment", "Simple & expensive-looking"],
-      gift:  ["Thoughtful gift mode", "Stocking-stuffer spree", "‘I nailed it’ gift hunt"]
-    };
-
-    let history = [];
-
-    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-    function moneyLine(budget){
-      if(!budget || budget <= 0) return "Budget: not specified.";
-      if(budget < 25) return `Budget: $${budget} (go small: 1–2 items max).`;
-      if(budget < 75) return `Budget: $${budget} (solid: 2–3 items).`;
-      if(budget < 150) return `Budget: $${budget} (you can do a mini haul).`;
-      return `Budget: $${budget} (treat yourself—still be smart).`;
-    }
-
-    function generatePlan(){
-      const vibe = vibeEl.value;
-      const budget = Number(budgetEl.value);
-
-      const mood = pick(moods[vibe]);
-      const store = pick(storesByVibe[vibe]);
-      const buy1 = pick(buys);
-      let buy2 = pick(buys);
-      while(buy2 === buy1) buy2 = pick(buys);
-
-      const noBuy = pick(avoid);
-
-      titleEl.textContent = `${mood} — go to ${store}`;
-      detailsEl.innerHTML =
-        `<div>✅ Buy: <strong>${buy1}</strong></div>` +
-        `<div>✅ Also buy: <strong>${buy2}</strong></div>` +
-        `<div>🚫 Avoid: <strong>${noBuy}</strong></div>` +
-        `<div style="margin-top:8px;">${moneyLine(budget)}</div>`;
-
-      const record = {
-        title: titleEl.textContent,
-        detailText: detailsEl.textContent
-      };
-      history.unshift(record);
-      history = history.slice(0,4);
-      renderHistory();
-
-      toastEl.textContent = "";
-    }
-
-    function renderHistory(){
-      historyEl.innerHTML = "";
-      history.forEach(h => {
-        const div = document.createElement("div");
-        div.className = "chip";
-        div.innerHTML = `
-          <div class="small">Plan</div>
-          <div class="big">${escapeHtml(h.title)}</div>
-        `;
-        historyEl.appendChild(div);
-      });
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    async function copyPlan(){
-      const text = `${titleEl.textContent}\n${detailsEl.textContent}`.trim();
-      if(!text || text.includes("Generate Mood")) return;
-
-      try{
-        await navigator.clipboard.writeText(text);
-        toastEl.textContent = "Copied ✅";
-      }catch(e){
-        toastEl.textContent = "Copy blocked—highlight + copy manually.";
-      }
-      setTimeout(()=> toastEl.textContent = "", 1400);
-    }
-
-    function clearAll(){
-      budgetEl.value = "";
-      titleEl.textContent = "Click “Generate Mood” to start.";
-      detailsEl.textContent = "";
-      toastEl.textContent = "Cleared.";
-      history = [];
-      renderHistory();
-      setTimeout(()=> toastEl.textContent = "", 1400);
-    }
-
-    document.getElementById("genBtn").addEventListener("click", generatePlan);
-    document.getElementById("copyBtn").addEventListener("click", copyPlan);
-    document.getElementById("clearBtn").addEventListener("click", clearAll);
-
-    // Start with an example so the page isn't empty
-    generatePlan();
-  </script>
+    /* Hide all panels by default when CSS rules above apply */
+    #occ-casual:checked ~ * .panel,
+    #occ-formal:checked ~ * .panel { display:none; }
+  </style>
 </body>
 </html>
