@@ -1,183 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Outfit Picker (No JavaScript)</title>
+  <meta charset="UTF-8">
+  <title>What Should I Wear?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 0;
-      padding: 24px 16px;
-      background: #f7f7fb;
-      color: #111827;
+      font-family: Arial, sans-serif;
+      background:#f7f7fb;
+      padding:20px;
     }
-    .wrap{max-width: 900px; margin: 0 auto;}
-    .topbar{
-      display:flex; justify-content:space-between; align-items:center;
-      padding: 12px 14px; background:#fff; border:1px solid rgba(0,0,0,.1);
-      border-radius: 12px; margin-bottom: 16px;
+    .box{
+      max-width:600px;
+      margin:auto;
+      background:#fff;
+      padding:20px;
+      border-radius:12px;
+      border:1px solid #ddd;
     }
-    .topbar a{ text-decoration:none; font-weight:800; color:#2563eb; }
-    .card{
-      background:#fff; border:1px solid rgba(0,0,0,.1);
-      border-radius: 16px; padding: 16px;
+    h1{margin-top:0;}
+    label{font-weight:bold;}
+    select, button{
+      width:100%;
+      padding:10px;
+      margin:8px 0;
     }
-    h1{margin: 0 0 6px;}
-    p{margin: 0 0 14px; color:#6b7280;}
-    fieldset{ border: 1px solid rgba(0,0,0,.1); border-radius: 12px; padding: 12px; margin: 12px 0;}
-    legend{ font-weight: 800; padding: 0 6px; }
-    label{ display:inline-block; margin: 6px 12px 6px 0; font-weight: 700; }
-    .results{ margin-top: 14px; }
-    .panel{
-      display:none;
-      border: 1px dashed rgba(0,0,0,.2);
-      background: rgba(0,0,0,.03);
-      padding: 14px;
-      border-radius: 12px;
-      margin-top: 10px;
+    .result{
+      margin-top:15px;
+      padding:12px;
+      background:#f0f0f0;
+      border-radius:8px;
     }
-    .panel h2{ margin: 0 0 8px; font-size: 18px; }
-    ul{ margin: 0; padding-left: 18px; }
-    .hint{font-size: 13px; color:#6b7280; margin-top: 10px;}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <a href="scratch.html">← Back to Scratch</a>
-      <strong>No-JS Outfit Picker</strong>
-    </div>
+  <div class="box">
+    <h1>What Should I Wear?</h1>
 
-    <div class="card">
-      <h1>What Should I Wear?</h1>
-      <p>Select an occasion and a season. Your outfit suggestions will appear.</p>
+    <label>Occasion</label>
+    <select id="occasion">
+      <option value="casual">Casual</option>
+      <option value="formal">Formal</option>
+    </select>
 
-      <!-- Occasion -->
-      <fieldset>
-        <legend>Occasion</legend>
-        <label><input type="radio" name="occasion" id="occ-casual" checked> Casual</label>
-        <label><input type="radio" name="occasion" id="occ-formal"> Formal</label>
-      </fieldset>
+    <label>Season</label>
+    <select id="season">
+      <option value="spring">Spring</option>
+      <option value="summer">Summer</option>
+      <option value="fall">Fall</option>
+      <option value="winter">Winter</option>
+    </select>
 
-      <!-- Season -->
-      <fieldset>
-        <legend>Season</legend>
-        <label><input type="radio" name="season" id="sea-spring" checked> Spring</label>
-        <label><input type="radio" name="season" id="sea-summer"> Summer</label>
-        <label><input type="radio" name="season" id="sea-fall"> Fall</label>
-        <label><input type="radio" name="season" id="sea-winter"> Winter</label>
-      </fieldset>
+    <button onclick="generate()">Generate Outfit</button>
 
-      <div class="results">
-        <div class="hint">Tip: change either selection to see a different outfit.</div>
-
-        <!-- CASUAL -->
-        <div class="panel" id="casual-spring">
-          <h2>Spring • Casual</h2>
-          <ul>
-            <li>Top: light sweater or long-sleeve tee</li>
-            <li>Bottom: jeans</li>
-            <li>Shoes: sneakers</li>
-            <li>Layer: denim jacket</li>
-          </ul>
-        </div>
-
-        <div class="panel" id="casual-summer">
-          <h2>Summer • Casual</h2>
-          <ul>
-            <li>Top: t-shirt or tank</li>
-            <li>Bottom: shorts</li>
-            <li>Shoes: sandals</li>
-            <li>Extra: sunglasses</li>
-          </ul>
-        </div>
-
-        <div class="panel" id="casual-fall">
-          <h2>Fall • Casual</h2>
-          <ul>
-            <li>Top: long-sleeve top</li>
-            <li>Bottom: jeans</li>
-            <li>Shoes: ankle boots</li>
-            <li>Layer: cardigan</li>
-          </ul>
-        </div>
-
-        <div class="panel" id="casual-winter">
-          <h2>Winter • Casual</h2>
-          <ul>
-            <li>Top: warm sweater</li>
-            <li>Bottom: warm pants</li>
-            <li>Shoes: boots</li>
-            <li>Layer: coat</li>
-          </ul>
-        </div>
-
-        <!-- FORMAL -->
-        <div class="panel" id="formal-spring">
-          <h2>Spring • Formal</h2>
-          <ul>
-            <li>Top: blouse</li>
-            <li>Bottom: dress pants</li>
-            <li>Shoes: flats or low heels</li>
-            <li>Layer: light blazer</li>
-          </ul>
-        </div>
-
-        <div class="panel" id="formal-summer">
-          <h2>Summer • Formal</h2>
-          <ul>
-            <li>Outfit: sleeveless dress</li>
-            <li>Shoes: heels or dress flats</li>
-            <li>Accessories: minimal jewelry</li>
-          </ul>
-        </div>
-
-        <div class="panel" id="formal-fall">
-          <h2>Fall • Formal</h2>
-          <ul>
-            <li>Top: blouse</li>
-            <li>Bottom: slacks</li>
-            <li>Shoes: loafers or heels</li>
-            <li>Layer: blazer</li>
-          </ul>
-        </div>
-
-        <div class="panel" id="formal-winter">
-          <h2>Winter • Formal</h2>
-          <ul>
-            <li>Outfit: sweater dress</li>
-            <li>Extra: tights</li>
-            <li>Shoes: boots</li>
-            <li>Layer: wool coat</li>
-          </ul>
-        </div>
-      </div>
+    <div class="result" id="result">
+      Click the button to get an outfit.
     </div>
   </div>
 
-  <!-- Pure CSS logic: show the right panel -->
-  <style>
-    /* Default (Casual + Spring) */
-    #casual-spring { display:block; }
+  <script>
+    function pick(arr){
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
 
-    /* Casual */
-    #occ-casual:checked ~ * #sea-spring:checked ~ * #casual-spring,
-    #occ-casual:checked ~ * #sea-summer:checked ~ * #casual-summer,
-    #occ-casual:checked ~ * #sea-fall:checked   ~ * #casual-fall,
-    #occ-casual:checked ~ * #sea-winter:checked ~ * #casual-winter { display:block; }
+    function generate(){
+      const occasion = document.getElementById("occasion").value;
+      const season = document.getElementById("season").value;
 
-    /* Formal */
-    #occ-formal:checked ~ * #sea-spring:checked ~ * #formal-spring,
-    #occ-formal:checked ~ * #sea-summer:checked ~ * #formal-summer,
-    #occ-formal:checked ~ * #sea-fall:checked   ~ * #formal-fall,
-    #occ-formal:checked ~ * #sea-winter:checked ~ * #formal-winter { display:block; }
+      const outfits = {
+        casual: {
+          spring: ["jeans + light sweater", "leggings + hoodie"],
+          summer: ["t-shirt + shorts", "tank top + skirt"],
+          fall: ["long sleeve + jeans", "sweater + leggings"],
+          winter: ["warm sweater + jeans", "hoodie + boots"]
+        },
+        formal: {
+          spring: ["blouse + dress pants", "light dress"],
+          summer: ["sleeveless dress", "blouse + skirt"],
+          fall: ["blazer + slacks", "midi dress"],
+          winter: ["sweater dress + boots", "dress pants + coat"]
+        }
+      };
 
-    /* Hide all panels by default when CSS rules above apply */
-    #occ-casual:checked ~ * .panel,
-    #occ-formal:checked ~ * .panel { display:none; }
-  </style>
+      const outfit = pick(outfits[occasion][season]);
+
+      document.getElementById("result").innerHTML =
+        `<strong>${season.charAt(0).toUpperCase()+season.slice(1)} ${occasion} outfit:</strong><br>${outfit}`;
+    }
+  </script>
 </body>
 </html>
