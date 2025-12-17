@@ -73,18 +73,45 @@
       const season = document.getElementById("season").value;
 
       const outfits = {
-        casual: {
-          spring: ["jeans and a light sweater", "leggings and a hoodie"],
-          summer: ["t-shirt and shorts", "tank top and skirt"],
-          fall: ["long sleeve and jeans", "sweater and leggings"],
-          winter: ["warm sweater and jeans", "hoodie and boots"]
-        },
-        formal: {
-          spring: ["blouse and dress pants", "light dress"],
-          summer: ["sleeveless dress", "blouse and skirt"],
-          fall: ["blazer and slacks", "midi dress"],
-          winter: ["sweater dress and boots", "dress pants and coat"]
-        }
+        const outfits = {
+  casual: {
+    spring: [
+      "long-sleeve top and loose-fit jeans",
+      "light sweater with a midi skirt"
+    ],
+    summer: [
+      "short-sleeve top with wide-leg pants",
+      "lightweight blouse with a midi skirt"
+    ],
+    fall: [
+      "long-sleeve shirt with jeans and flats",
+      "sweater with a maxi skirt"
+    ],
+    winter: [
+      "warm sweater with straight-leg pants",
+      "turtleneck with a long skirt and boots"
+    ]
+  },
+  formal: {
+    spring: [
+      "blouse with dress pants and a blazer",
+      "long-sleeve midi dress with flats"
+    ],
+    summer: [
+      "lightweight long dress with sandals",
+      "blouse with flowy dress pants"
+    ],
+    fall: [
+      "turtleneck with slacks and loafers",
+      "long-sleeve dress with ankle boots"
+    ],
+    winter: [
+      "sweater dress with tights and boots",
+      "blouse with dress pants and a wool coat"
+    ]
+  }
+};
+
       };
 
       const outfit = pick(outfits[occasion][season]);
