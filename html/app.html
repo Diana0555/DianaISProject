@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini App | RHOSLC Shopping Drama Generator</title>
+  <title>Mini App | RHOSLC Logic Translator</title>
 
   <style>
     :root{
@@ -13,6 +13,7 @@
       --muted:#6b7280;
       --accent:#6d28d9;
       --accent2:#16a34a;
+      --danger:#ef4444;
       --border:rgba(0,0,0,.10);
       --shadow:0 10px 30px rgba(0,0,0,.08);
       --radius:18px;
@@ -25,13 +26,11 @@
       color: var(--text);
       line-height: 1.35;
     }
-
     .wrap{
       max-width: 980px;
       margin: 0 auto;
       padding: 20px 16px 70px;
     }
-
     .topbar{
       display:flex;
       align-items:center;
@@ -49,7 +48,7 @@
     .topbar a{
       text-decoration:none;
       color: var(--accent);
-      font-weight: 800;
+      font-weight: 900;
     }
     .pill{
       display:inline-block;
@@ -80,33 +79,46 @@
       padding: 18px;
     }
 
-    h1{
-      margin: 0 0 6px;
-      font-size: 28px;
-      letter-spacing: .2px;
-    }
-    .sub{
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .controls{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-      align-items: end;
-    }
+    h1{ margin:0 0 6px; font-size: 28px; letter-spacing:.2px; }
+    h2{ margin:0 0 6px; font-size: 18px; }
+    .sub{ margin:0; color: var(--muted); }
 
     label{
       display:block;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--muted);
-      margin: 0 0 6px;
+      margin: 14px 0 6px;
+      letter-spacing:.4px;
+      text-transform: uppercase;
     }
 
-    select, input[type="text"]{
+    textarea{
+      width: 100%;
+      min-height: 110px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      outline: none;
+      font-size: 15px;
+      resize: vertical;
+    }
+    textarea:focus{
+      border-color: rgba(109,40,217,.55);
+      box-shadow: 0 0 0 4px rgba(109,40,217,.12);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 520px){
+      .row{ grid-template-columns: 1fr; }
+    }
+
+    select, input[type="range"]{
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--border);
@@ -115,22 +127,14 @@
       outline: none;
       background: #fff;
     }
-    select:focus, input[type="text"]:focus{
-      border-color: rgba(109,40,217,.55);
-      box-shadow: 0 0 0 4px rgba(109,40,217,.12);
-    }
-
-    .field{
-      min-width: 210px;
-      flex: 1 1 210px;
-    }
 
     .btns{
       display:flex;
-      gap: 10px;
+      gap:10px;
       flex-wrap: wrap;
+      margin-top: 14px;
+      align-items:center;
     }
-
     button{
       border: 1px solid var(--border);
       background: #fff;
@@ -152,6 +156,11 @@
       color:#fff;
       border-color: transparent;
     }
+    .danger{
+      background: var(--danger);
+      color:#fff;
+      border-color: transparent;
+    }
 
     .output{
       margin-top: 14px;
@@ -159,36 +168,61 @@
       padding: 14px;
       background: rgba(0,0,0,.04);
       border: 1px dashed rgba(0,0,0,.15);
-      min-height: 90px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      font-weight: 800;
     }
-
-    .hint{
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .list{
-      margin: 10px 0 0 18px;
-      color: var(--muted);
-    }
-
-    .small{
+    .outLabel{
       font-size: 12px;
+      font-weight: 900;
       color: var(--muted);
-      margin-top: 12px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 8px;
+    }
+    .outText{
+      font-size: 16px;
+      font-weight: 800;
+      margin:0;
     }
 
     .toast{
       margin-top: 10px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--muted);
+      min-height: 18px;
+    }
+
+    .history{
+      margin-top: 12px;
+      border-top: 1px solid rgba(0,0,0,.08);
+      padding-top: 12px;
+    }
+    .chip{
+      display:block;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.10);
+      background:#fff;
+      margin-top: 10px;
+    }
+    .chip .small{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+    .chip .big{
+      margin-top: 6px;
+      font-weight: 900;
+    }
+    .fineprint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .k{
+      font-weight: 900;
+      color: var(--text);
     }
   </style>
 </head>
@@ -202,178 +236,247 @@
 
     <div class="grid">
       <div class="card">
-        <h1>RHOSLC Shopping Drama Generator</h1>
-        <p class="sub">Click to generate a chaotic shopping moment (Utah-style). You can also add your own store/item to personalize it.</p>
+        <h1>RHOSLC Logic Translator</h1>
+        <p class="sub">Type a sentence someone would say in an argument, then translate it into “Housewives Logic” (parody-style, PG).</p>
 
-        <div class="controls">
-          <div class="field">
-            <label for="storeInput">Store (optional)</label>
-            <input id="storeInput" type="text" placeholder="e.g., Nordstrom, Sephora, Costco" />
-          </div>
-          <div class="field">
-            <label for="itemInput">Item (optional)</label>
-            <input id="itemInput" type="text" placeholder="e.g., heels, skincare, sunglasses" />
-          </div>
-          <div class="field">
-            <label for="intensity">Drama level</label>
-            <select id="intensity">
-              <option value="mild">Mild (polite shade)</option>
-              <option value="medium" selected>Medium (group chat energy)</option>
-              <option value="wild">Wild (confessional-level)</option>
+        <label for="inputText">What they said</label>
+        <textarea id="inputText" placeholder="Example: “I didn’t mean it like that.”"></textarea>
+
+        <div class="row">
+          <div>
+            <label for="tone">Translation tone</label>
+            <select id="tone">
+              <option value="shady" selected>Shady</option>
+              <option value="sweet">Sweet-but-still-a-read</option>
+              <option value="chaotic">Chaotic</option>
             </select>
           </div>
-
-          <div class="btns">
-            <button class="primary" id="genBtn">Generate Drama</button>
-            <button id="remixBtn">Remix Ending</button>
-            <button class="good" id="copyBtn">Copy Line</button>
+          <div>
+            <label for="drama">Drama level: <span class="k" id="dramaVal">6</span>/10</label>
+            <input id="drama" type="range" min="1" max="10" value="6" />
           </div>
         </div>
 
-        <div class="output" id="output">
-          Your drama will appear here 💅
+        <div class="btns">
+          <button class="primary" id="translateBtn">Translate</button>
+          <button id="randomBtn">Use Example</button>
+          <button class="good" id="copyBtn">Copy</button>
+          <button class="danger" id="clearBtn">Clear</button>
         </div>
 
-        <div class="toast" id="toast"></div>
+        <div class="output" id="outputBox" aria-live="polite">
+          <div class="outLabel">Translation</div>
+          <p class="outText" id="outputText">Your translation will appear here.</p>
+          <div class="toast" id="toast"></div>
+        </div>
 
-        <p class="hint"><strong>Tip:</strong> If you leave Store/Item blank, it’ll randomize them.</p>
+        <p class="fineprint">Note: This is an original parody “translator” for a class project—no direct show quotes.</p>
       </div>
 
       <div class="card">
-        <h2 style="margin:0 0 6px;">How this meets Part 3</h2>
-        <p class="sub">Single-page app using HTML + CSS + JavaScript. Interactive buttons + random generation + optional user input.</p>
+        <h2>How it works</h2>
+        <p class="sub">Uses text patterns + random “confessional” phrases to rewrite what you type. Includes tone, drama slider, copy button, and history.</p>
 
-        <ul class="list">
-          <li>Randomized “generator” output</li>
-          <li>User input changes the result</li>
-          <li>Copy-to-clipboard interaction</li>
-          <li>Styled UI (not default browser)</li>
-        </ul>
-
-        <div class="small">
-          Note: This is a parody-style “drama line generator” for a class project.
+        <div class="history">
+          <div class="outLabel">Recent translations</div>
+          <div id="historyList"></div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // RHOSLC-inspired (non-quoted, original text) generator parts
-    const cast = [
-      "Lisa Barlow", "Heather Gay", "Meredith Marks", "Whitney Rose",
-      "Angie K.", "Mary Cosby", "Jen (in spirit)", "The Producer"
+    const inputEl = document.getElementById("inputText");
+    const toneEl = document.getElementById("tone");
+    const dramaEl = document.getElementById("drama");
+    const dramaValEl = document.getElementById("dramaVal");
+    const outEl = document.getElementById("outputText");
+    const toastEl = document.getElementById("toast");
+    const historyList = document.getElementById("historyList");
+
+    const examples = [
+      "I didn’t mean it like that.",
+      "I’m just being honest.",
+      "I never said that.",
+      "You’re taking it the wrong way.",
+      "I’m not mad.",
+      "I’m over it.",
+      "I was trying to help you.",
+      "I don’t do drama."
     ];
 
-    const stores = [
-      "Nordstrom", "Sephora", "Target", "Costco", "Anthropologie",
-      "H&M", "Ulta", "a boutique in Park City", "the mall kiosk", "a ski shop"
+    // Pattern-based translations (original, PG)
+    const patterns = [
+      { re: /i didn'?t mean it like that/i, base: "I absolutely meant it, I’m just adjusting the wording now." },
+      { re: /i'?m just being honest/i, base: "I’m choosing violence, but calling it ‘honesty’ for the vibe." },
+      { re: /i never said that/i, base: "I said it… but I’m hoping the room forgot." },
+      { re: /you'?re taking it the wrong way/i, base: "I said exactly what I said, and I’m blaming your feelings." },
+      { re: /i'?m not mad/i, base: "I’m mad, but I’m pretending I’m not because it looks better on camera." },
+      { re: /i'?m over it/i, base: "I’m not over it. I’m about to bring it up again… later." },
+      { re: /i was trying to help you/i, base: "I delivered a critique and labeled it as ‘help’ to avoid accountability." },
+      { re: /i don'?t do drama/i, base: "I do drama professionally—I just don’t want credit right now." }
     ];
 
-    const items = [
-      "sunglasses", "a designer bag", "skincare", "heels", "a fur-trim coat",
-      "a suspiciously expensive candle", "protein bars", "a sparkling water haul",
-      "lip filler gloss", "a statement ring"
+    const confessionalOpeners = {
+      shady: [
+        "In my opinion,", "Let’s be real:", "Honestly,", "Here’s what’s funny:",
+        "No because actually,"
+      ],
+      sweet: [
+        "With love,", "Respectfully,", "Gently speaking,", "Trying to be kind:",
+        "I’m saying this nicely:"
+      ],
+      chaotic: [
+        "Plot twist:", "Breaking news:", "In the name of chaos,", "Buckle up:",
+        "So anyway—"
+      ]
+    };
+
+    const endings = {
+      shady: [
+        "And that’s why I’m not apologizing first.",
+        "Now I’m waiting for the group chat to explode.",
+        "I said it with my whole chest.",
+        "This is not my problem to fix."
+      ],
+      sweet: [
+        "I hope that makes sense, truly.",
+        "I want peace… but also clarity.",
+        "I’m rooting for us, in theory.",
+        "I’m open to moving forward, slowly."
+      ],
+      chaotic: [
+        "Cue dramatic music and a sudden exit.",
+        "Somebody bring snacks—this is going to be a season.",
+        "And yes, I brought imaginary receipts.",
+        "Now we’re having a meeting about the meeting."
+      ]
+    };
+
+    const spice = [
+      "Respectfully.", "Don’t make me repeat myself.", "I’m being calm.", "It’s giving delusion.",
+      "I’m not explaining this twice.", "I have a timestamp in my head.", "That’s not what happened.",
+      "Let’s not rewrite history."
     ];
 
-    const openers = [
-      "Okay, so…", "Not to be dramatic, but…", "Listen.", "Here’s the thing:",
-      "I’m just saying…", "Respectfully…", "No because actually…"
-    ];
+    let history = [];
 
-    const mildEndings = [
-      "and somehow it turned into a *whole situation*.",
-      "and the cashier definitely heard the shade.",
-      "and now everyone is acting brand new.",
-      "and the group chat is already typing…",
-      "and it was… awkward, to say the least."
-    ];
+    function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
 
-    const mediumEndings = [
-      "and now someone is demanding an apology in the parking lot.",
-      "and the receipt became evidence in a friendship trial.",
-      "and a 'quick errand' turned into a 45-minute confrontation.",
-      "and suddenly it's a loyalty test.",
-      "and someone called it 'embarrassing' out loud."
-    ];
+    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
 
-    const wildEndings = [
-      "and it ended with security watching us like a reunion episode.",
-      "and now the receipt is a plot line for the entire season.",
-      "and a confessional just spawned in the aisle.",
-      "and I'm pretty sure the mannequins are taking sides.",
-      "and we are one step away from a microphone pack being ripped off."
-    ];
+    function translateText(raw, tone, drama){
+      const text = (raw || "").trim();
+      if(!text) return "Type something first and I’ll translate it.";
 
-    const reactions = [
-      "insists it’s ‘self-care’", "calls it ‘iconic’", "says it’s ‘for business’",
-      "claims someone is ‘projecting’", "asks ‘Are you okay?’", "says ‘That’s weird.’",
-      "whispers ‘I have receipts.’"
-    ];
-
-    let lastCore = null; // store the last generated "core" so remix works
-
-    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-    function getEnding(level){
-      if(level === "mild") return pick(mildEndings);
-      if(level === "wild") return pick(wildEndings);
-      return pick(mediumEndings);
-    }
-
-    function normalizeInput(str){
-      const s = (str || "").trim();
-      return s.length ? s : null;
-    }
-
-    function generateLine(remixOnly=false){
-      const storeInput = normalizeInput(document.getElementById("storeInput").value);
-      const itemInput  = normalizeInput(document.getElementById("itemInput").value);
-      const level = document.getElementById("intensity").value;
-
-      const chosenStore = storeInput || pick(stores);
-      const chosenItem  = itemInput  || pick(items);
-
-      if(!remixOnly || !lastCore){
-        lastCore = {
-          opener: pick(openers),
-          person: pick(cast),
-          store: chosenStore,
-          item: chosenItem,
-          reaction: pick(reactions),
-          price: Math.floor(Math.random() * 4900) + 100 // $100–$5000
-        };
+      // Try a pattern match first
+      let base = null;
+      for(const p of patterns){
+        if(p.re.test(text)){ base = p.base; break; }
       }
 
-      const ending = getEnding(level);
+      // If no match, do a generic translation that still feels “Housewives logic”
+      if(!base){
+        base = `I’m going to reframe “${text}” in a way that benefits me.`;
+      }
 
-      const line =
-        `${lastCore.opener} ${lastCore.person} went to ${lastCore.store} and spent ` +
-        `$${lastCore.price.toLocaleString()} on ${lastCore.item}, then ${lastCore.reaction}… ` +
-        `${ending}`;
+      const opener = pick(confessionalOpeners[tone]);
+      const ending = pick(endings[tone]);
 
-      document.getElementById("output").textContent = line;
-      document.getElementById("toast").textContent = "";
+      // Add extra “spice” based on drama slider
+      const spiceCount = clamp(Math.floor((Number(drama) - 1) / 3), 0, 3);
+      let spiceBits = [];
+      for(let i=0;i<spiceCount;i++) spiceBits.push(pick(spice));
+      const extra = spiceBits.length ? (" " + spiceBits.join(" ")) : "";
+
+      return `${opener} ${base}${extra} ${ending}`;
     }
 
-    async function copyLine(){
-      const text = document.getElementById("output").textContent.trim();
-      if(!text || text.includes("will appear here")) return;
+    function renderHistory(){
+      historyList.innerHTML = "";
+      history.slice(0,4).forEach(h => {
+        const div = document.createElement("div");
+        div.className = "chip";
+        div.innerHTML = `
+          <div class="small">You said</div>
+          <div class="big">${escapeHtml(h.input)}</div>
+          <div class="small" style="margin-top:10px;">Translated</div>
+          <div class="big">${escapeHtml(h.output)}</div>
+        `;
+        historyList.appendChild(div);
+      });
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function setToast(msg){
+      toastEl.textContent = msg || "";
+      if(msg) setTimeout(()=> toastEl.textContent = "", 1400);
+    }
+
+    function doTranslate(){
+      const tone = toneEl.value;
+      const drama = dramaEl.value;
+      const input = inputEl.value;
+
+      const output = translateText(input, tone, drama);
+      outEl.textContent = output;
+
+      history.unshift({ input: input.trim() || "(blank)", output });
+      history = history.slice(0, 6);
+      renderHistory();
+      setToast("");
+    }
+
+    async function copyOutput(){
+      const text = outEl.textContent.trim();
+      if(!text || text.includes("appear here")) return;
 
       try{
         await navigator.clipboard.writeText(text);
-        document.getElementById("toast").textContent = "Copied ✅";
+        setToast("Copied ✅");
       }catch(e){
-        document.getElementById("toast").textContent = "Couldn’t copy (browser blocked it). You can highlight + copy manually.";
+        setToast("Copy blocked—highlight + copy manually.");
       }
-      setTimeout(()=> document.getElementById("toast").textContent = "", 1400);
     }
 
-    document.getElementById("genBtn").addEventListener("click", ()=>generateLine(false));
-    document.getElementById("remixBtn").addEventListener("click", ()=>generateLine(true));
-    document.getElementById("copyBtn").addEventListener("click", copyLine);
+    function useExample(){
+      inputEl.value = pick(examples);
+      inputEl.focus();
+      doTranslate();
+    }
 
-    // Start with a sample line so the page isn't empty
-    generateLine(false);
+    function clearAll(){
+      inputEl.value = "";
+      outEl.textContent = "Your translation will appear here.";
+      history = [];
+      renderHistory();
+      setToast("Cleared.");
+      inputEl.focus();
+    }
+
+    dramaEl.addEventListener("input", () => dramaValEl.textContent = dramaEl.value);
+    document.getElementById("translateBtn").addEventListener("click", doTranslate);
+    document.getElementById("randomBtn").addEventListener("click", useExample);
+    document.getElementById("copyBtn").addEventListener("click", copyOutput);
+    document.getElementById("clearBtn").addEventListener("click", clearAll);
+
+    inputEl.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" && (e.ctrlKey || e.metaKey)){
+        doTranslate(); // Ctrl/Cmd+Enter to translate
+      }
+    });
+
+    // Initialize
+    dramaValEl.textContent = dramaEl.value;
+    useExample();
   </script>
 </body>
 </html>
