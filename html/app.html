@@ -3,84 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini App | Guess the Number</title>
+  <title>Mini App | RHOSLC Shopping Drama Generator</title>
+
   <style>
+    :root{
+      --bg:#f6f3ff;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --accent:#6d28d9;
+      --accent2:#16a34a;
+      --border:rgba(0,0,0,.10);
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{ box-sizing:border-box; }
     body{
       margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:#f6f3ff;
-      color:#111;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.35;
     }
+
     .wrap{
-      max-width: 900px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 24px 16px 60px;
+      padding: 20px 16px 70px;
     }
+
     .topbar{
       display:flex;
-      justify-content: space-between;
       align-items:center;
+      justify-content:space-between;
       gap:12px;
       padding: 14px 16px;
-      background:#ffffff;
-      border: 1px solid rgba(0,0,0,.08);
-      border-radius: 12px;
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      position: sticky;
+      top: 12px;
+      z-index: 10;
     }
     .topbar a{
       text-decoration:none;
-      color:#111;
-      font-weight: 600;
-    }
-    .card{
-      margin-top: 18px;
-      background:#fff;
-      border: 1px solid rgba(0,0,0,.08);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 6px 20px rgba(0,0,0,.06);
-    }
-    h1{ margin:0 0 8px; font-size: 26px; }
-    p{ margin: 8px 0 0; line-height: 1.5; }
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-    input{
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(0,0,0,.2);
-      min-width: 200px;
-      font-size: 16px;
-    }
-    button{
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(0,0,0,.2);
-      background: #fff;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    button:hover{ transform: translateY(-1px); }
-    .status{
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(0,0,0,.04);
+      color: var(--accent);
+      font-weight: 800;
     }
     .pill{
       display:inline-block;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff;
+      background: var(--accent);
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(0,0,0,.06);
-      font-weight: 700;
-      margin-left: 6px;
+      letter-spacing:.2px;
     }
-    .small{
-      font-size: 13px;
-      opacity: .85;
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    h1{
+      margin: 0 0 6px;
+      font-size: 28px;
+      letter-spacing: .2px;
+    }
+    .sub{
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .controls{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      align-items: end;
+    }
+
+    label{
+      display:block;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+
+    select, input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+    }
+    select:focus, input[type="text"]:focus{
+      border-color: rgba(109,40,217,.55);
+      box-shadow: 0 0 0 4px rgba(109,40,217,.12);
+    }
+
+    .field{
+      min-width: 210px;
+      flex: 1 1 210px;
+    }
+
+    .btns{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button{
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 900;
+      cursor:pointer;
+      transition: transform .05s ease;
+    }
+    button:hover{ transform: translateY(-1px); }
+
+    .primary{
+      background: var(--accent);
+      color:#fff;
+      border-color: transparent;
+    }
+    .good{
+      background: var(--accent2);
+      color:#fff;
+      border-color: transparent;
+    }
+
+    .output{
+      margin-top: 14px;
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(0,0,0,.04);
+      border: 1px dashed rgba(0,0,0,.15);
+      min-height: 90px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-weight: 800;
+    }
+
+    .hint{
       margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .list{
+      margin: 10px 0 0 18px;
+      color: var(--muted);
+    }
+
+    .small{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .toast{
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
     }
   </style>
 </head>
@@ -89,75 +197,183 @@
   <div class="wrap">
     <div class="topbar">
       <a href="scratch.html">← Back to Scratch</a>
-      <div>
-        <a href="../index.html">Home</a>
-        <span class="pill">Part 3</span>
-      </div>
+      <span class="pill">Part 3 Mini App</span>
     </div>
 
-    <div class="card">
-      <h1>Guess the Number</h1>
-      <p>I picked a number from <strong>1 to 100</strong>. You get feedback after each guess.</p>
+    <div class="grid">
+      <div class="card">
+        <h1>RHOSLC Shopping Drama Generator</h1>
+        <p class="sub">Click to generate a chaotic shopping moment (Utah-style). You can also add your own store/item to personalize it.</p>
 
-      <div class="row">
-        <input id="guessInput" type="number" min="1" max="100" placeholder="Enter a number (1–100)" />
-        <button id="guessBtn">Guess</button>
-        <button id="newBtn">New Game</button>
+        <div class="controls">
+          <div class="field">
+            <label for="storeInput">Store (optional)</label>
+            <input id="storeInput" type="text" placeholder="e.g., Nordstrom, Sephora, Costco" />
+          </div>
+          <div class="field">
+            <label for="itemInput">Item (optional)</label>
+            <input id="itemInput" type="text" placeholder="e.g., heels, skincare, sunglasses" />
+          </div>
+          <div class="field">
+            <label for="intensity">Drama level</label>
+            <select id="intensity">
+              <option value="mild">Mild (polite shade)</option>
+              <option value="medium" selected>Medium (group chat energy)</option>
+              <option value="wild">Wild (confessional-level)</option>
+            </select>
+          </div>
+
+          <div class="btns">
+            <button class="primary" id="genBtn">Generate Drama</button>
+            <button id="remixBtn">Remix Ending</button>
+            <button class="good" id="copyBtn">Copy Line</button>
+          </div>
+        </div>
+
+        <div class="output" id="output">
+          Your drama will appear here 💅
+        </div>
+
+        <div class="toast" id="toast"></div>
+
+        <p class="hint"><strong>Tip:</strong> If you leave Store/Item blank, it’ll randomize them.</p>
       </div>
 
-      <div class="status" id="statusBox">
-        Make a guess to start!
-      </div>
+      <div class="card">
+        <h2 style="margin:0 0 6px;">How this meets Part 3</h2>
+        <p class="sub">Single-page app using HTML + CSS + JavaScript. Interactive buttons + random generation + optional user input.</p>
 
-      <div class="small">
-        Attempts: <span id="attempts">0</span>
+        <ul class="list">
+          <li>Randomized “generator” output</li>
+          <li>User input changes the result</li>
+          <li>Copy-to-clipboard interaction</li>
+          <li>Styled UI (not default browser)</li>
+        </ul>
+
+        <div class="small">
+          Note: This is a parody-style “drama line generator” for a class project.
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    let secret, attempts;
+    // RHOSLC-inspired (non-quoted, original text) generator parts
+    const cast = [
+      "Lisa Barlow", "Heather Gay", "Meredith Marks", "Whitney Rose",
+      "Angie K.", "Mary Cosby", "Jen (in spirit)", "The Producer"
+    ];
 
-    function newGame(){
-      secret = Math.floor(Math.random()*100) + 1;
-      attempts = 0;
-      document.getElementById('attempts').textContent = attempts;
-      document.getElementById('statusBox').textContent = "New game started. Guess a number!";
-      document.getElementById('guessInput').value = "";
-      document.getElementById('guessInput').focus();
+    const stores = [
+      "Nordstrom", "Sephora", "Target", "Costco", "Anthropologie",
+      "H&M", "Ulta", "a boutique in Park City", "the mall kiosk", "a ski shop"
+    ];
+
+    const items = [
+      "sunglasses", "a designer bag", "skincare", "heels", "a fur-trim coat",
+      "a suspiciously expensive candle", "protein bars", "a sparkling water haul",
+      "lip filler gloss", "a statement ring"
+    ];
+
+    const openers = [
+      "Okay, so…", "Not to be dramatic, but…", "Listen.", "Here’s the thing:",
+      "I’m just saying…", "Respectfully…", "No because actually…"
+    ];
+
+    const mildEndings = [
+      "and somehow it turned into a *whole situation*.",
+      "and the cashier definitely heard the shade.",
+      "and now everyone is acting brand new.",
+      "and the group chat is already typing…",
+      "and it was… awkward, to say the least."
+    ];
+
+    const mediumEndings = [
+      "and now someone is demanding an apology in the parking lot.",
+      "and the receipt became evidence in a friendship trial.",
+      "and a 'quick errand' turned into a 45-minute confrontation.",
+      "and suddenly it's a loyalty test.",
+      "and someone called it 'embarrassing' out loud."
+    ];
+
+    const wildEndings = [
+      "and it ended with security watching us like a reunion episode.",
+      "and now the receipt is a plot line for the entire season.",
+      "and a confessional just spawned in the aisle.",
+      "and I'm pretty sure the mannequins are taking sides.",
+      "and we are one step away from a microphone pack being ripped off."
+    ];
+
+    const reactions = [
+      "insists it’s ‘self-care’", "calls it ‘iconic’", "says it’s ‘for business’",
+      "claims someone is ‘projecting’", "asks ‘Are you okay?’", "says ‘That’s weird.’",
+      "whispers ‘I have receipts.’"
+    ];
+
+    let lastCore = null; // store the last generated "core" so remix works
+
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    function getEnding(level){
+      if(level === "mild") return pick(mildEndings);
+      if(level === "wild") return pick(wildEndings);
+      return pick(mediumEndings);
     }
 
-    function makeGuess(){
-      const input = document.getElementById('guessInput');
-      const val = Number(input.value);
-
-      if(!val || val < 1 || val > 100){
-        document.getElementById('statusBox').textContent = "Enter a valid number between 1 and 100.";
-        return;
-      }
-
-      attempts++;
-      document.getElementById('attempts').textContent = attempts;
-
-      if(val === secret){
-        document.getElementById('statusBox').textContent =
-          `✅ Correct! The number was ${secret}. You got it in ${attempts} attempt(s).`;
-      } else if(val < secret){
-        document.getElementById('statusBox').textContent = "Too low ⬇️ Try again.";
-      } else {
-        document.getElementById('statusBox').textContent = "Too high ⬆️ Try again.";
-      }
-
-      input.select();
+    function normalizeInput(str){
+      const s = (str || "").trim();
+      return s.length ? s : null;
     }
 
-    document.getElementById('guessBtn').addEventListener('click', makeGuess);
-    document.getElementById('newBtn').addEventListener('click', newGame);
-    document.getElementById('guessInput').addEventListener('keydown', (e)=>{
-      if(e.key === "Enter") makeGuess();
-    });
+    function generateLine(remixOnly=false){
+      const storeInput = normalizeInput(document.getElementById("storeInput").value);
+      const itemInput  = normalizeInput(document.getElementById("itemInput").value);
+      const level = document.getElementById("intensity").value;
 
-    newGame();
+      const chosenStore = storeInput || pick(stores);
+      const chosenItem  = itemInput  || pick(items);
+
+      if(!remixOnly || !lastCore){
+        lastCore = {
+          opener: pick(openers),
+          person: pick(cast),
+          store: chosenStore,
+          item: chosenItem,
+          reaction: pick(reactions),
+          price: Math.floor(Math.random() * 4900) + 100 // $100–$5000
+        };
+      }
+
+      const ending = getEnding(level);
+
+      const line =
+        `${lastCore.opener} ${lastCore.person} went to ${lastCore.store} and spent ` +
+        `$${lastCore.price.toLocaleString()} on ${lastCore.item}, then ${lastCore.reaction}… ` +
+        `${ending}`;
+
+      document.getElementById("output").textContent = line;
+      document.getElementById("toast").textContent = "";
+    }
+
+    async function copyLine(){
+      const text = document.getElementById("output").textContent.trim();
+      if(!text || text.includes("will appear here")) return;
+
+      try{
+        await navigator.clipboard.writeText(text);
+        document.getElementById("toast").textContent = "Copied ✅";
+      }catch(e){
+        document.getElementById("toast").textContent = "Couldn’t copy (browser blocked it). You can highlight + copy manually.";
+      }
+      setTimeout(()=> document.getElementById("toast").textContent = "", 1400);
+    }
+
+    document.getElementById("genBtn").addEventListener("click", ()=>generateLine(false));
+    document.getElementById("remixBtn").addEventListener("click", ()=>generateLine(true));
+    document.getElementById("copyBtn").addEventListener("click", copyLine);
+
+    // Start with a sample line so the page isn't empty
+    generateLine(false);
   </script>
 </body>
 </html>
