@@ -62,3 +62,18 @@
   display: inline-block;
   margin-top: 10px;
 }
+/* Center and constrain Tableau embed */
+.tableau-container {
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.tableau-container .tableauPlaceholder,
+.tableau-container iframe,
+.tableau-container object {
+  margin: 0 auto !important;
+  display: block;
+  max-width: 100% !important;
+}
+
