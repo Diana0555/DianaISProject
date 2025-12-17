@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini App | RHOSLC Logic Translator</title>
+  <title>Mini App | Shopping Mood Generator</title>
 
   <style>
     :root{
-      --bg:#f6f3ff;
+      --bg:#f7f7fb;
       --card:#ffffff;
       --text:#111827;
       --muted:#6b7280;
-      --accent:#6d28d9;
+      --accent:#2563eb;
       --accent2:#16a34a;
       --danger:#ef4444;
       --border:rgba(0,0,0,.10);
@@ -37,7 +37,7 @@
       justify-content:space-between;
       gap:12px;
       padding: 14px 16px;
-      background: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.9);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -78,7 +78,6 @@
       box-shadow: var(--shadow);
       padding: 18px;
     }
-
     h1{ margin:0 0 6px; font-size: 28px; letter-spacing:.2px; }
     h2{ margin:0 0 6px; font-size: 18px; }
     .sub{ margin:0; color: var(--muted); }
@@ -93,21 +92,6 @@
       text-transform: uppercase;
     }
 
-    textarea{
-      width: 100%;
-      min-height: 110px;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      outline: none;
-      font-size: 15px;
-      resize: vertical;
-    }
-    textarea:focus{
-      border-color: rgba(109,40,217,.55);
-      box-shadow: 0 0 0 4px rgba(109,40,217,.12);
-    }
-
     .row{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -118,7 +102,7 @@
       .row{ grid-template-columns: 1fr; }
     }
 
-    select, input[type="range"]{
+    select, input[type="number"]{
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--border);
@@ -126,6 +110,10 @@
       font-size: 15px;
       outline: none;
       background: #fff;
+    }
+    select:focus, input[type="number"]:focus{
+      border-color: rgba(37,99,235,.55);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
     }
 
     .btns{
@@ -179,16 +167,14 @@
     }
     .outText{
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 900;
       margin:0;
     }
-
-    .toast{
+    .mini{
       margin-top: 10px;
-      font-size: 13px;
-      font-weight: 800;
       color: var(--muted);
-      min-height: 18px;
+      font-weight: 700;
+      line-height: 1.5;
     }
 
     .history{
@@ -197,7 +183,6 @@
       padding-top: 12px;
     }
     .chip{
-      display:block;
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid rgba(0,0,0,.10);
@@ -215,14 +200,13 @@
       margin-top: 6px;
       font-weight: 900;
     }
-    .fineprint{
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 12px;
-    }
-    .k{
+
+    .toast{
+      margin-top: 10px;
+      font-size: 13px;
       font-weight: 900;
-      color: var(--text);
+      color: var(--muted);
+      min-height: 18px;
     }
   </style>
 </head>
@@ -236,174 +220,145 @@
 
     <div class="grid">
       <div class="card">
-        <h1>RHOSLC Logic Translator</h1>
-        <p class="sub">Type a sentence someone would say in an argument, then translate it into “Housewives Logic” (parody-style, PG).</p>
-
-        <label for="inputText">What they said</label>
-        <textarea id="inputText" placeholder="Example: “I didn’t mean it like that.”"></textarea>
+        <h1>Shopping Mood Generator</h1>
+        <p class="sub">Pick your vibe + (optional) budget, then get a shopping plan: where to go, what to buy, and what to avoid.</p>
 
         <div class="row">
           <div>
-            <label for="tone">Translation tone</label>
-            <select id="tone">
-              <option value="shady" selected>Shady</option>
-              <option value="sweet">Sweet-but-still-a-read</option>
-              <option value="chaotic">Chaotic</option>
+            <label for="vibe">Vibe</label>
+            <select id="vibe">
+              <option value="treat">Treat Yourself</option>
+              <option value="budget" selected>Budget Basics</option>
+              <option value="trendy">Trendy Refresh</option>
+              <option value="minimal">Minimal & Clean</option>
+              <option value="gift">Gift Shopping</option>
             </select>
           </div>
+
           <div>
-            <label for="drama">Drama level: <span class="k" id="dramaVal">6</span>/10</label>
-            <input id="drama" type="range" min="1" max="10" value="6" />
+            <label for="budget">Budget (optional)</label>
+            <input id="budget" type="number" min="0" placeholder="e.g., 50" />
           </div>
         </div>
 
         <div class="btns">
-          <button class="primary" id="translateBtn">Translate</button>
-          <button id="randomBtn">Use Example</button>
+          <button class="primary" id="genBtn">Generate Mood</button>
           <button class="good" id="copyBtn">Copy</button>
           <button class="danger" id="clearBtn">Clear</button>
         </div>
 
-        <div class="output" id="outputBox" aria-live="polite">
-          <div class="outLabel">Translation</div>
-          <p class="outText" id="outputText">Your translation will appear here.</p>
+        <div class="output" aria-live="polite">
+          <div class="outLabel">Your shopping plan</div>
+          <p class="outText" id="planTitle">Click “Generate Mood” to start.</p>
+          <div class="mini" id="planDetails"></div>
           <div class="toast" id="toast"></div>
         </div>
-
-        <p class="fineprint">Note: This is an original parody “translator” for a class project—no direct show quotes.</p>
       </div>
 
       <div class="card">
-        <h2>How it works</h2>
-        <p class="sub">Uses text patterns + random “confessional” phrases to rewrite what you type. Includes tone, drama slider, copy button, and history.</p>
+        <h2>Recent plans</h2>
+        <p class="sub">Your last few generated plans (so it’s easy to show it’s interactive).</p>
 
-        <div class="history">
-          <div class="outLabel">Recent translations</div>
-          <div id="historyList"></div>
-        </div>
+        <div class="history" id="history"></div>
       </div>
     </div>
   </div>
 
   <script>
-    const inputEl = document.getElementById("inputText");
-    const toneEl = document.getElementById("tone");
-    const dramaEl = document.getElementById("drama");
-    const dramaValEl = document.getElementById("dramaVal");
-    const outEl = document.getElementById("outputText");
+    const vibeEl = document.getElementById("vibe");
+    const budgetEl = document.getElementById("budget");
+    const titleEl = document.getElementById("planTitle");
+    const detailsEl = document.getElementById("planDetails");
     const toastEl = document.getElementById("toast");
-    const historyList = document.getElementById("historyList");
+    const historyEl = document.getElementById("history");
 
-    const examples = [
-      "I didn’t mean it like that.",
-      "I’m just being honest.",
-      "I never said that.",
-      "You’re taking it the wrong way.",
-      "I’m not mad.",
-      "I’m over it.",
-      "I was trying to help you.",
-      "I don’t do drama."
-    ];
-
-    // Pattern-based translations (original, PG)
-    const patterns = [
-      { re: /i didn'?t mean it like that/i, base: "I absolutely meant it, I’m just adjusting the wording now." },
-      { re: /i'?m just being honest/i, base: "I’m choosing violence, but calling it ‘honesty’ for the vibe." },
-      { re: /i never said that/i, base: "I said it… but I’m hoping the room forgot." },
-      { re: /you'?re taking it the wrong way/i, base: "I said exactly what I said, and I’m blaming your feelings." },
-      { re: /i'?m not mad/i, base: "I’m mad, but I’m pretending I’m not because it looks better on camera." },
-      { re: /i'?m over it/i, base: "I’m not over it. I’m about to bring it up again… later." },
-      { re: /i was trying to help you/i, base: "I delivered a critique and labeled it as ‘help’ to avoid accountability." },
-      { re: /i don'?t do drama/i, base: "I do drama professionally—I just don’t want credit right now." }
-    ];
-
-    const confessionalOpeners = {
-      shady: [
-        "In my opinion,", "Let’s be real:", "Honestly,", "Here’s what’s funny:",
-        "No because actually,"
-      ],
-      sweet: [
-        "With love,", "Respectfully,", "Gently speaking,", "Trying to be kind:",
-        "I’m saying this nicely:"
-      ],
-      chaotic: [
-        "Plot twist:", "Breaking news:", "In the name of chaos,", "Buckle up:",
-        "So anyway—"
-      ]
+    const storesByVibe = {
+      treat:  ["Sephora", "Nordstrom", "Ulta", "Lululemon", "a local boutique"],
+      budget: ["Target", "Walmart", "Marshalls", "TJ Maxx", "Old Navy"],
+      trendy: ["Zara", "H&M", "Urban Outfitters", "ASOS", "Aritzia"],
+      minimal:["Uniqlo", "Everlane", "Gap", "COS", "Banana Republic Factory"],
+      gift:  ["Target", "Etsy", "World Market", "Bath & Body Works", "Amazon"]
     };
 
-    const endings = {
-      shady: [
-        "And that’s why I’m not apologizing first.",
-        "Now I’m waiting for the group chat to explode.",
-        "I said it with my whole chest.",
-        "This is not my problem to fix."
-      ],
-      sweet: [
-        "I hope that makes sense, truly.",
-        "I want peace… but also clarity.",
-        "I’m rooting for us, in theory.",
-        "I’m open to moving forward, slowly."
-      ],
-      chaotic: [
-        "Cue dramatic music and a sudden exit.",
-        "Somebody bring snacks—this is going to be a season.",
-        "And yes, I brought imaginary receipts.",
-        "Now we’re having a meeting about the meeting."
-      ]
-    };
-
-    const spice = [
-      "Respectfully.", "Don’t make me repeat myself.", "I’m being calm.", "It’s giving delusion.",
-      "I’m not explaining this twice.", "I have a timestamp in my head.", "That’s not what happened.",
-      "Let’s not rewrite history."
+    const buys = [
+      "a neutral top you can re-wear",
+      "a good everyday pair of shoes",
+      "a cozy sweater or hoodie",
+      "a simple accessory (gold hoops / watch / belt)",
+      "a quality skincare staple (cleanser or moisturizer)",
+      "a structured bag that matches most outfits",
+      "a warm winter layer (puffer or coat)"
     ];
+
+    const avoid = [
+      "anything you can’t return",
+      "duplicate items you already own",
+      "super trendy pieces you won’t wear twice",
+      "random checkout candy/candles",
+      "buying because it’s on sale (only)",
+      "items without checking your closet first"
+    ];
+
+    const moods = {
+      treat:  ["Main character energy", "Luxury-lite day", "Glow-up mission"],
+      budget: ["Practical & proud", "Errands but cute", "Basics upgrade"],
+      trendy: ["New season refresh", "Pinterest outfit mood", "Trend test drive"],
+      minimal:["Clean girl closet reset", "Capsule wardrobe moment", "Simple & expensive-looking"],
+      gift:  ["Thoughtful gift mode", "Stocking-stuffer spree", "‘I nailed it’ gift hunt"]
+    };
 
     let history = [];
 
-    function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+    function moneyLine(budget){
+      if(!budget || budget <= 0) return "Budget: not specified.";
+      if(budget < 25) return `Budget: $${budget} (go small: 1–2 items max).`;
+      if(budget < 75) return `Budget: $${budget} (solid: 2–3 items).`;
+      if(budget < 150) return `Budget: $${budget} (you can do a mini haul).`;
+      return `Budget: $${budget} (treat yourself—still be smart).`;
+    }
 
-    function translateText(raw, tone, drama){
-      const text = (raw || "").trim();
-      if(!text) return "Type something first and I’ll translate it.";
+    function generatePlan(){
+      const vibe = vibeEl.value;
+      const budget = Number(budgetEl.value);
 
-      // Try a pattern match first
-      let base = null;
-      for(const p of patterns){
-        if(p.re.test(text)){ base = p.base; break; }
-      }
+      const mood = pick(moods[vibe]);
+      const store = pick(storesByVibe[vibe]);
+      const buy1 = pick(buys);
+      let buy2 = pick(buys);
+      while(buy2 === buy1) buy2 = pick(buys);
 
-      // If no match, do a generic translation that still feels “Housewives logic”
-      if(!base){
-        base = `I’m going to reframe “${text}” in a way that benefits me.`;
-      }
+      const noBuy = pick(avoid);
 
-      const opener = pick(confessionalOpeners[tone]);
-      const ending = pick(endings[tone]);
+      titleEl.textContent = `${mood} — go to ${store}`;
+      detailsEl.innerHTML =
+        `<div>✅ Buy: <strong>${buy1}</strong></div>` +
+        `<div>✅ Also buy: <strong>${buy2}</strong></div>` +
+        `<div>🚫 Avoid: <strong>${noBuy}</strong></div>` +
+        `<div style="margin-top:8px;">${moneyLine(budget)}</div>`;
 
-      // Add extra “spice” based on drama slider
-      const spiceCount = clamp(Math.floor((Number(drama) - 1) / 3), 0, 3);
-      let spiceBits = [];
-      for(let i=0;i<spiceCount;i++) spiceBits.push(pick(spice));
-      const extra = spiceBits.length ? (" " + spiceBits.join(" ")) : "";
+      const record = {
+        title: titleEl.textContent,
+        detailText: detailsEl.textContent
+      };
+      history.unshift(record);
+      history = history.slice(0,4);
+      renderHistory();
 
-      return `${opener} ${base}${extra} ${ending}`;
+      toastEl.textContent = "";
     }
 
     function renderHistory(){
-      historyList.innerHTML = "";
-      history.slice(0,4).forEach(h => {
+      historyEl.innerHTML = "";
+      history.forEach(h => {
         const div = document.createElement("div");
         div.className = "chip";
         div.innerHTML = `
-          <div class="small">You said</div>
-          <div class="big">${escapeHtml(h.input)}</div>
-          <div class="small" style="margin-top:10px;">Translated</div>
-          <div class="big">${escapeHtml(h.output)}</div>
+          <div class="small">Plan</div>
+          <div class="big">${escapeHtml(h.title)}</div>
         `;
-        historyList.appendChild(div);
+        historyEl.appendChild(div);
       });
     }
 
@@ -416,67 +371,35 @@
         .replaceAll("'","&#039;");
     }
 
-    function setToast(msg){
-      toastEl.textContent = msg || "";
-      if(msg) setTimeout(()=> toastEl.textContent = "", 1400);
-    }
-
-    function doTranslate(){
-      const tone = toneEl.value;
-      const drama = dramaEl.value;
-      const input = inputEl.value;
-
-      const output = translateText(input, tone, drama);
-      outEl.textContent = output;
-
-      history.unshift({ input: input.trim() || "(blank)", output });
-      history = history.slice(0, 6);
-      renderHistory();
-      setToast("");
-    }
-
-    async function copyOutput(){
-      const text = outEl.textContent.trim();
-      if(!text || text.includes("appear here")) return;
+    async function copyPlan(){
+      const text = `${titleEl.textContent}\n${detailsEl.textContent}`.trim();
+      if(!text || text.includes("Generate Mood")) return;
 
       try{
         await navigator.clipboard.writeText(text);
-        setToast("Copied ✅");
+        toastEl.textContent = "Copied ✅";
       }catch(e){
-        setToast("Copy blocked—highlight + copy manually.");
+        toastEl.textContent = "Copy blocked—highlight + copy manually.";
       }
-    }
-
-    function useExample(){
-      inputEl.value = pick(examples);
-      inputEl.focus();
-      doTranslate();
+      setTimeout(()=> toastEl.textContent = "", 1400);
     }
 
     function clearAll(){
-      inputEl.value = "";
-      outEl.textContent = "Your translation will appear here.";
+      budgetEl.value = "";
+      titleEl.textContent = "Click “Generate Mood” to start.";
+      detailsEl.textContent = "";
+      toastEl.textContent = "Cleared.";
       history = [];
       renderHistory();
-      setToast("Cleared.");
-      inputEl.focus();
+      setTimeout(()=> toastEl.textContent = "", 1400);
     }
 
-    dramaEl.addEventListener("input", () => dramaValEl.textContent = dramaEl.value);
-    document.getElementById("translateBtn").addEventListener("click", doTranslate);
-    document.getElementById("randomBtn").addEventListener("click", useExample);
-    document.getElementById("copyBtn").addEventListener("click", copyOutput);
+    document.getElementById("genBtn").addEventListener("click", generatePlan);
+    document.getElementById("copyBtn").addEventListener("click", copyPlan);
     document.getElementById("clearBtn").addEventListener("click", clearAll);
 
-    inputEl.addEventListener("keydown", (e) => {
-      if(e.key === "Enter" && (e.ctrlKey || e.metaKey)){
-        doTranslate(); // Ctrl/Cmd+Enter to translate
-      }
-    });
-
-    // Initialize
-    dramaValEl.textContent = dramaEl.value;
-    useExample();
+    // Start with an example so the page isn't empty
+    generatePlan();
   </script>
 </body>
 </html>
