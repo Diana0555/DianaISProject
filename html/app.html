@@ -14,41 +14,66 @@
     .box{
       max-width:600px;
       margin:auto;
-      background:#fff;
+      background:#ffffff;
       padding:20px;
       border-radius:12px;
       border:1px solid #ddd;
     }
-    label{font-weight:bold;}
+    h1{
+      margin-top:0;
+    }
+    label{
+      font-weight:bold;
+      display:block;
+      margin-top:10px;
+    }
     select, button{
       width:100%;
       padding:10px;
-      margin:8px 0;
+      margin-top:6px;
+      font-size:16px;
+    }
+    button{
+      background:#2563eb;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      margin-top:14px;
+    }
+    button:hover{
+      opacity:0.9;
     }
     .result{
-      margin-top:15px;
+      margin-top:16px;
       padding:12px;
       background:#f0f0f0;
       border-radius:8px;
     }
-    a{color:#2563eb; text-decoration:none; font-weight:bold;}
+    a{
+      color:#2563eb;
+      text-decoration:none;
+      font-weight:bold;
+    }
   </style>
 </head>
 
 <body>
   <div class="box">
 
+    <!-- Navigation back to scratch page -->
     <p><a href="scratch.html">← Back to Scratch Page</a></p>
 
     <h1>What Should I Wear?</h1>
+    <p>Select an occasion and season to get a modest outfit suggestion.</p>
 
-    <label>Occasion</label>
+    <label for="occasion">Occasion</label>
     <select id="occasion">
       <option value="casual">Casual</option>
       <option value="formal">Formal</option>
     </select>
 
-    <label>Season</label>
+    <label for="season">Season</label>
     <select id="season">
       <option value="spring">Spring</option>
       <option value="summer">Summer</option>
@@ -73,50 +98,49 @@
       const season = document.getElementById("season").value;
 
       const outfits = {
-  casual: {
-    spring: [
-      "long-sleeve top and loose-fit jeans",
-      "light sweater with a midi skirt"
-    ],
-    summer: [
-      "short-sleeve top with wide-leg pants",
-      "lightweight blouse with a midi skirt"
-    ],
-    fall: [
-      "long-sleeve shirt with jeans and flats",
-      "sweater with a maxi skirt"
-    ],
-    winter: [
-      "warm sweater with straight-leg pants",
-      "turtleneck with a long skirt and boots"
-    ]
-  },
-  formal: {
-    spring: [
-      "blouse with dress pants and a blazer",
-      "long-sleeve midi dress with flats"
-    ],
-    summer: [
-      "lightweight long dress with sandals",
-      "blouse with flowy dress pants"
-    ],
-    fall: [
-      "turtleneck with slacks and loafers",
-      "long-sleeve dress with ankle boots"
-    ],
-    winter: [
-      "sweater dress with tights and boots",
-      "blouse with dress pants and a wool coat"
-    ]
-  }
-};
-
+        casual: {
+          spring: [
+            "long-sleeve top with loose-fit jeans",
+            "light sweater with a midi skirt"
+          ],
+          summer: [
+            "short-sleeve top with wide-leg pants",
+            "lightweight blouse with a midi skirt"
+          ],
+          fall: [
+            "long-sleeve shirt with jeans and flats",
+            "sweater with a maxi skirt"
+          ],
+          winter: [
+            "warm sweater with straight-leg pants",
+            "turtleneck with a long skirt and boots"
+          ]
+        },
+        formal: {
+          spring: [
+            "blouse with dress pants and a blazer",
+            "long-sleeve midi dress with flats"
+          ],
+          summer: [
+            "lightweight long dress with sandals",
+            "blouse with flowy dress pants"
+          ],
+          fall: [
+            "turtleneck with slacks and loafers",
+            "long-sleeve dress with ankle boots"
+          ],
+          winter: [
+            "sweater dress with tights and boots",
+            "blouse with dress pants and a wool coat"
+          ]
+        }
       };
 
       const outfit = pick(outfits[occasion][season]);
 
       document.getElementById("result").innerHTML =
-        `<strong>${season} ${occasion} outfit:</strong><br>${outfit}`;
+        `<strong>${season.charAt(0).toUpperCase() + season.slice(1)} 
+        ${occasion} outfit:</strong><br>${outfit}`;
     }
   </script>
 </body>
