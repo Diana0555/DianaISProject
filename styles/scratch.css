@@ -87,16 +87,6 @@
   overflow: hidden;
 }
 
-.tableau-container .tableauPlaceholder {
-  width: 100% !important;
-}
-
-.tableau-container object {
-  width: 100% !important;
-  height: 400px !important;
-  transform: scale(1);
-  transform-origin: top left;
-}
 /* Tableau sizing fix */
 .tableau-container{
   width: 100%;
@@ -104,14 +94,6 @@
   margin: 0 auto;
 }
 
-.tableau-container .tableauPlaceholder{
-  width: 100% !important;
-}
 
-.tableau-container .tableauViz,
-.tableau-container object{
-  width: 100% !important;
-  height: 600px !important;
-}
 
 
